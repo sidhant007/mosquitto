@@ -830,7 +830,7 @@ libmosq_EXPORT int mosquitto_publish_v5(
  *  payload -    pointers to multiple segments of data to send.
  *  lengths -    length of each segment of data to send. Sum should be between
  *               0 to 268,435,455.
- *  cnt -        number of segments to send. Should be > 0.
+ *  buffers_cnt -number of segments to send. Should be > 0.
  * 	qos -        integer value 0, 1 or 2 indicating the Quality of Service to be
  *               used for the message.  only 0 is supported.
  * 	retain -     set to true to make the message retained.
@@ -847,7 +847,7 @@ libmosq_EXPORT int mosquitto_publish_v5(
  * See Also:
  *	<mosquitto_max_inflight_messages_set>
  */
-libmosq_EXPORT int mosquitto_publishm(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int cnt, int qos, bool retain);
+libmosq_EXPORT int mosquitto_publishm(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int buffers_cnt, int qos, bool retain);
 
 /*
  * Function: mosquitto_publish_v5
@@ -875,7 +875,7 @@ libmosq_EXPORT int mosquitto_publishm(struct mosquitto *mosq, int *mid, const ch
  *               valid memory location.
  *  lengths -    length of each segment of data to send. Sum should be between
  *               0 to 268,435,455.
- *  cnt -        number of segments to send. Should be > 0.
+ *  buffers_cnt -number of segments to send. Should be > 0.
  * 	qos -        integer value 0, 1 or 2 indicating the Quality of Service to be
  *               used for the message.
  * 	retain -     set to true to make the message retained.
@@ -903,7 +903,7 @@ libmosq_EXPORT int mosquitto_publishm_v5(
 		const char *topic,
 		const void **payload,
     int *lengths,
-    int cnt,
+    int buffers_cnt,
 		int qos,
 		bool retain,
 		const mosquitto_property *properties);

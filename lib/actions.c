@@ -34,10 +34,10 @@ int mosquitto_publish(struct mosquitto *mosq, int *mid, const char *topic, int p
 	return mosquitto_publish_v5(mosq, mid, topic, payloadlen, payload, qos, retain, NULL);
 }
 
-int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int cnt, int qos, bool retain, const mosquitto_property *properties);
+int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int buffers_cnt, int qos, bool retain, const mosquitto_property *properties);
 
-int mosquitto_publishm(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int cnt, int qos, bool retain) {
-  return mosquitto_publishm_v5(mosq, mid, topic, payload, lengths, cnt, qos, retain, NULL);
+int mosquitto_publishm(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int buffers_cnt, int qos, bool retain) {
+  return mosquitto_publishm_v5(mosq, mid, topic, payload, lengths, buffers_cnt, qos, retain, NULL);
 }
 
 int mosquitto_publish_v5(struct mosquitto *mosq, int *mid, const char *topic, int payloadlen, const void *payload, int qos, bool retain, const mosquitto_property *properties)
@@ -45,9 +45,9 @@ int mosquitto_publish_v5(struct mosquitto *mosq, int *mid, const char *topic, in
   return mosquitto_publishm_v5(mosq, mid, topic, &payload, &payloadlen, 1, qos, retain, NULL);
 }
 
-int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int cnt, int qos, bool retain, const mosquitto_property *properties) {
+int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, const void **payload, int *lengths, int buffers_cnt, int qos, bool retain, const mosquitto_property *properties) {
   int i = 0, payloadlen = 0;
-  for (i = 0; i < cnt; i++) {
+  for (i = 0; i < buffers_cnt; i++) {
     payloadlen += lengths[i];
   }
 	struct mosquitto_message_all *message;
@@ -126,7 +126,7 @@ int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, c
 	}
 
 	if(qos == 0){
-		return send__publishm(mosq, local_mid, topic, payloadlen, payload, lengths, cnt, qos, retain, false, outgoing_properties, NULL, 0);
+		return send__publishm(mosq, local_mid, topic, payloadlen, payload, lengths, buffers_cnt, qos, retain, false, outgoing_properties, NULL, 0);
 	}else{
 		if(outgoing_properties){
 			rc = mosquitto_property_copy_all(&properties_copy, outgoing_properties);
@@ -158,11 +158,10 @@ int mosquitto_publishm_v5(struct mosquitto *mosq, int *mid, const char *topic, c
 				return MOSQ_ERR_NOMEM;
 			}
       int i = 0, offset = 0;
-      for (i = 0; i < cnt; i++) {
+      for (i = 0; i < buffers_cnt; i++) {
 			  memcpy(message->msg.payload + offset, payload[i], lengths[i]*sizeof(uint8_t));
         offset += lengths[i]*sizeof(uint8_t);
       }
-			//memcpy(message->msg.payload, payload, payloadlen*sizeof(uint8_t));
 		}else{
 			message->msg.payloadlen = 0;
 			message->msg.payload = NULL;
