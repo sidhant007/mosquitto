@@ -757,6 +757,62 @@ libmosq_EXPORT int mosquitto_disconnect_v5(struct mosquitto *mosq, int reason_co
 libmosq_EXPORT int mosquitto_publish(struct mosquitto *mosq, int *mid, const char *topic, int payloadlen, const void *payload, int qos, bool retain);
 
 /*
+ * Function: mosquitto_publish_v5
+ *
+ * Publish a message on a given topic, with attached MQTT properties.
+ *
+ * Use e.g. <mosquitto_property_add_string> and similar to create a list of
+ * properties, then attach them to this publish. Properties need freeing with
+ * <mosquitto_property_free_all>.
+ *
+ * Requires the mosquitto instance to be connected with MQTT 5.
+ *
+ * Parameters:
+ * 	mosq -       a valid mosquitto instance.
+ * 	mid -        pointer to an int. If not NULL, the function will set this
+ *               to the message id of this particular message. This can be then
+ *               used with the publish callback to determine when the message
+ *               has been sent.
+ *               Note that although the MQTT protocol doesn't use message ids
+ *               for messages with QoS=0, libmosquitto assigns them message ids
+ *               so they can be tracked with this parameter.
+ *  topic -      null terminated string of the topic to publish to.
+ * 	payloadlen - the size of the payload (bytes). Valid values are between 0 and
+ *               268,435,455.
+ * 	payload -    pointer to the data to send. If payloadlen > 0 this must be a
+ *               valid memory location.
+ * 	qos -        integer value 0, 1 or 2 indicating the Quality of Service to be
+ *               used for the message.
+ * 	retain -     set to true to make the message retained.
+ * 	properties - a valid mosquitto_property list, or NULL.
+ *
+ * Returns:
+ * 	MOSQ_ERR_SUCCESS -        on success.
+ * 	MOSQ_ERR_INVAL -          if the input parameters were invalid.
+ * 	MOSQ_ERR_NOMEM -          if an out of memory condition occurred.
+ * 	MOSQ_ERR_NO_CONN -        if the client isn't connected to a broker.
+ *	MOSQ_ERR_PROTOCOL -       if there is a protocol error communicating with the
+ *                            broker.
+ * 	MOSQ_ERR_PAYLOAD_SIZE -   if payloadlen is too large.
+ * 	MOSQ_ERR_MALFORMED_UTF8 - if the topic is not valid UTF-8
+ *	MOSQ_ERR_DUPLICATE_PROPERTY - if a property is duplicated where it is forbidden.
+ *	MOSQ_ERR_PROTOCOL - if any property is invalid for use with PUBLISH.
+ *	MOSQ_ERR_QOS_NOT_SUPPORTED - if the QoS is greater than that supported by
+ *	                             the broker.
+ *	MOSQ_ERR_OVERSIZE_PACKET - if the resulting packet would be larger than
+ *	                           supported by the broker.
+ */
+libmosq_EXPORT int mosquitto_publish_v5(
+		struct mosquitto *mosq,
+		int *mid,
+		const char *topic,
+		int payloadlen,
+		const void *payload,
+		int qos,
+		bool retain,
+		const mosquitto_property *properties);
+
+/*
  * Function: mosquitto_publishm
  *
  * Publish a message on a given topic.
@@ -814,10 +870,12 @@ libmosq_EXPORT int mosquitto_publishm(struct mosquitto *mosq, int *mid, const ch
  *               for messages with QoS=0, libmosquitto assigns them message ids
  *               so they can be tracked with this parameter.
  *  topic -      null terminated string of the topic to publish to.
- * 	payloadlen - the size of the payload (bytes). Valid values are between 0 and
  *               268,435,455.
  * 	payload -    pointer to the data to send. If payloadlen > 0 this must be a
  *               valid memory location.
+ *  lengths -    length of each segment of data to send. Sum should be between
+ *               0 to 268,435,455.
+ *  cnt -        number of segments to send. Should be > 0.
  * 	qos -        integer value 0, 1 or 2 indicating the Quality of Service to be
  *               used for the message.
  * 	retain -     set to true to make the message retained.
@@ -839,16 +897,16 @@ libmosq_EXPORT int mosquitto_publishm(struct mosquitto *mosq, int *mid, const ch
  *	MOSQ_ERR_OVERSIZE_PACKET - if the resulting packet would be larger than
  *	                           supported by the broker.
  */
-libmosq_EXPORT int mosquitto_publish_v5(
+libmosq_EXPORT int mosquitto_publishm_v5(
 		struct mosquitto *mosq,
 		int *mid,
 		const char *topic,
-		int payloadlen,
-		const void *payload,
+		const void **payload,
+    int *lengths,
+    int cnt,
 		int qos,
 		bool retain,
 		const mosquitto_property *properties);
-
 
 /*
  * Function: mosquitto_subscribe
