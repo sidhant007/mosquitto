@@ -40,6 +40,7 @@ int packet__read_varint(struct mosquitto__packet *packet, int32_t *word, int8_t 
 
 void packet__write_byte(struct mosquitto__packet *packet, uint8_t byte);
 void packet__write_bytes(struct mosquitto__packet *packet, const void *bytes, uint32_t count);
+void packet__write_multiple(struct mosquitto__packet *packet, const void **bytes, uint32_t *lengths, int buffers_cnt);
 void packet__write_string(struct mosquitto__packet *packet, const char *str, uint16_t length);
 void packet__write_uint16(struct mosquitto__packet *packet, uint16_t word);
 void packet__write_uint32(struct mosquitto__packet *packet, uint32_t word);
