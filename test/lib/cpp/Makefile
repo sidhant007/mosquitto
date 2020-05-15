@@ -38,6 +38,9 @@ all : 01 02 03 04 08 09
 03-publish-qos0.test : 03-publish-qos0.cpp
 	$(CXX) $< -o $@ $(CFLAGS) $(LIBS)
 
+03-publishm-qos0.test : 03-publishm-qos0.cpp
+	$(CXX) $< -o $@ $(CFLAGS) $(LIBS)
+
 03-publish-qos0-no-payload.test : 03-publish-qos0-no-payload.cpp
 	$(CXX) $< -o $@ $(CFLAGS) $(LIBS)
 
@@ -81,7 +84,7 @@ all : 01 02 03 04 08 09
 
 02 : 02-subscribe-qos0.test 02-subscribe-qos1.test 02-subscribe-qos2.test 02-unsubscribe.test
 
-03 : 03-publish-qos0.test 03-publish-qos0-no-payload.test 03-publish-c2b-qos1-disconnect.test 03-publish-c2b-qos2.test 03-publish-c2b-qos2-disconnect.test 03-publish-b2c-qos1.test 03-publish-b2c-qos2.test
+03 : 03-publish-qos0.test 03-publishm-qos0.test 03-publish-qos0-no-payload.test 03-publish-c2b-qos1-disconnect.test 03-publish-c2b-qos2.test 03-publish-c2b-qos2-disconnect.test 03-publish-b2c-qos1.test 03-publish-b2c-qos2.test
 
 04 : 04-retain-qos0.test
 

@@ -272,6 +272,11 @@ int mosquittopp::publish(int *mid, const char *topic, int payloadlen, const void
 	return mosquitto_publish(m_mosq, mid, topic, payloadlen, payload, qos, retain);
 }
 
+int mosquittopp::publishm(int *mid, const char *topic, const void **payload, int *lengths, int buffers_cnt, int qos, bool retain)
+{
+	return mosquitto_publishm(m_mosq, mid, topic, payload, lengths, buffers_cnt, qos, retain);
+}
+
 void mosquittopp::reconnect_delay_set(unsigned int reconnect_delay, unsigned int reconnect_delay_max, bool reconnect_exponential_backoff)
 {
 	mosquitto_reconnect_delay_set(m_mosq, reconnect_delay, reconnect_delay_max, reconnect_exponential_backoff);

@@ -20,6 +20,7 @@ SRC = \
 	02-unsubscribe-v5.c \
 	02-unsubscribe-multiple-v5.c \
 	03-publish-qos0.c \
+	03-publishm-qos0.c \
 	03-publish-qos0-no-payload.c \
 	03-publish-c2b-qos1-disconnect.c \
 	03-publish-c2b-qos1-len.c \
