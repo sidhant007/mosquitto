@@ -87,6 +87,13 @@ void packet__write_bytes(struct mosquitto__packet *packet, const void *bytes, ui
 	packet->pos += count;
 }
 
+void packet__write_multiple(struct mosquitto__packet *packet, const void **bytes, uint32_t *lengths, int cnt)
+{
+  int i;
+  for (i = 0; i < cnt; i++) {
+    packet__write_bytes(packet, bytes[i], lengths[i]);
+  }
+}
 
 int packet__read_binary(struct mosquitto__packet *packet, uint8_t **data, int *length)
 {
