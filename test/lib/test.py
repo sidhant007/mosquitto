@@ -40,6 +40,9 @@ tests = [
     (1, ['./03-publish-c2b-qos2.py', 'c/03-publish-c2b-qos2.test']),
     (1, ['./03-publish-qos0-no-payload.py', 'c/03-publish-qos0-no-payload.test']),
     (1, ['./03-publish-qos0.py', 'c/03-publish-qos0.test']),
+    (1, ['./03-publishv-c2b-qos1-disconnect.py', 'c/03-publishv-c2b-qos1-disconnect.test']),
+    (1, ['./03-publishv-qos0-no-payload.py', 'c/03-publishv-qos0-no-payload.test']),
+    (1, ['./03-publishv-qos0.py', 'c/03-publishv-qos0.test']),
     (1, ['./03-request-response-correlation.py', 'c/03-request-response-correlation.test']),
     (1, ['./03-request-response.py', 'c/03-request-response.test']),
 
@@ -76,6 +79,9 @@ tests = [
     (1, ['./03-publish-c2b-qos2.py', 'cpp/03-publish-c2b-qos2.test']),
     (1, ['./03-publish-qos0-no-payload.py', 'cpp/03-publish-qos0-no-payload.test']),
     (1, ['./03-publish-qos0.py', 'cpp/03-publish-qos0.test']),
+    (1, ['./03-publishv-c2b-qos1-disconnect.py', 'cpp/03-publishv-c2b-qos1-disconnect.test']),
+    (1, ['./03-publishv-qos0-no-payload.py', 'cpp/03-publishv-qos0-no-payload.test']),
+    (1, ['./03-publishv-qos0.py', 'cpp/03-publishv-qos0.test']),
 
     (1, ['./04-retain-qos0.py', 'cpp/04-retain-qos0.test']),
 

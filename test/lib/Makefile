@@ -57,6 +57,9 @@ c : test-compile
 	./03-publish-c2b-qos2.py $@/03-publish-c2b-qos2.test
 	./03-publish-qos0-no-payload.py $@/03-publish-qos0-no-payload.test
 	./03-publish-qos0.py $@/03-publish-qos0.test
+	./03-publishv-c2b-qos1-disconnect.py $@/03-publishv-c2b-qos1-disconnect.test
+	./03-publishv-qos0-no-payload.py $@/03-publishv-qos0-no-payload.test
+	./03-publishv-qos0.py $@/03-publishv-qos0.test
 	./03-request-response-correlation.py $@/03-request-response-correlation.test
 	./03-request-response.py $@/03-request-response.test
 	./04-retain-qos0.py $@/04-retain-qos0.test
