@@ -14,6 +14,8 @@ Broker:
   Closes #1735.
 - Add `mosquitto_plugin_publish()` function, which can be used by plugins to
   publish messages.
+- Add `mosquitto_client_protocol_version()` function which can be used by
+  plugins to determine which version of MQTT a client has connected with.
 
 Client library:
 - Client no longer generates random client ids for v3.1.1 clients, these are
@@ -51,6 +53,7 @@ Clients:
 - Add `--random-filter` to mosquitto_sub, to allow only a certain proportion
   of received messages to be printed.
 - mosquitto_sub %j and %J timestamps are now in a ISO 8601 compatible format.
+- mosquitto_pub now sends 0 length files without an error when using `-f`.
 
 
 1.6.9 - 20200227
